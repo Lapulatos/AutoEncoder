@@ -317,7 +317,7 @@ public class BackPropagation {
 					}
 					
 					d3 = df3.trans().multi(s).data[0];
-					if((d3 > SIG*d0) || (f3 > (f0 + x3*RHO*d0)) || (m == 0)) {
+					if((d3 > SIG*d0) || (f3 > (f0 + x3*RHO*d0)) || (m > 0)) {
 						break;
 					}
 					
@@ -339,7 +339,7 @@ public class BackPropagation {
 				}
 				
 				
-				while((Math.abs(d3) > (-SIG*d0)) || (f3 > (f0 + x3*RHO*d0)) && (m == 0)) {
+				while(((Math.abs(d3) > (-SIG*d0)) || (f3 > (f0 + x3*RHO*d0))) && (m > 0)) {
 					double x4 = 0; double f4 = 0; double d4 = 0;
 					
 					if((d3 > 0) || (f3 > (f0 + x3*RHO*d0))) {
