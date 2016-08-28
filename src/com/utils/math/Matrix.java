@@ -12,6 +12,22 @@ import com.utils.DataArrayToByteArray;
 
 public class Matrix {
 
+	static {
+//		System.loadLibrary("com_utils_math_CBLAS");
+//		System.load("D:/document/programming/java/AutoEncoder/exec/com_utils_math_CBLAS.dll");
+		
+		// win64
+//		System.load("C:/Program Files (x86)/IntelSWTools/compilers_and_libraries_2016.3.207/windows/redist/intel64_win/mkl/mkl_core.dll");
+//		System.load("C:/Program Files (x86)/IntelSWTools/compilers_and_libraries_2016.3.207/windows/redist/intel64_win/mkl/mkl_intel_thread.dll");
+//		System.load("C:/Program Files (x86)/IntelSWTools/compilers_and_libraries_2016.3.207/windows/redist/intel64_win/compiler/libiomp5md.dll");
+
+		// win32
+//		System.load("C:/Program Files (x86)/IntelSWTools/compilers_and_libraries_2016.3.207/windows/redist/ia32_win/mkl/mkl_core.dll");
+//		System.load("C:/Program Files (x86)/IntelSWTools/compilers_and_libraries_2016.3.207/windows/redist/ia32_win/mkl/mkl_intel_thread.dll");
+//		System.load("C:/Program Files (x86)/IntelSWTools/compilers_and_libraries_2016.3.207/windows/redist/ia32_win/compiler/libiomp5md.dll");
+
+	}
+	
 	public int m, n;
 	public double[] data;
 	
@@ -376,8 +392,22 @@ public class Matrix {
 		
 		return mtx;
 	}
-	
+
 	public Matrix multi(Matrix mtx) {
+		if(n != mtx.m) {
+			System.out.println("mtx.n is not equal m, which is invalid for func multi.");
+			return null;
+		}
+		
+		Matrix res = new Matrix(m, mtx.n);
+		
+		CBLAS.dgemm(CBLAS.ORDER.RowMajor, CBLAS.TRANSPOSE.NoTrans, CBLAS.TRANSPOSE.NoTrans, this.m, mtx.n, this.n, 1.0, this.data, this.n, mtx.data, mtx.n, 0.0, res.data, mtx.n);
+		
+		return res;
+	}
+	
+	
+/*	public Matrix multi(Matrix mtx) {
 		if(n != mtx.m) {
 			System.out.println("mtx.n is not equal m, which is invalid for func multi.");
 			return null;
@@ -397,7 +427,7 @@ public class Matrix {
 		
 		return res;
 	}
-	
+*/	
 	public Matrix dotMinus(Matrix mtx) {
 		if(mtx.m != m || mtx.n != n) {
 			System.out.println("the dim of mtx is not equal to orig, which is invalid for func dotMinus.");
@@ -1392,35 +1422,40 @@ public class Matrix {
 	}
 	
 	public static void main(String[] args) {
-		final int size = 25;
-		int[] data = new int[size];		
-		for(int i = 0; i < size; ++i) {
-			data[i] = i+1;
+		int m = 2000, p = 200, n = 1000;
+		int LOOP_COUNT = 10;
+		
+		double[] A = new double[m*p];
+		double[] B = new double[p*n];
+		
+		for(int i = 0; i < (m*p); i++) {
+			A[i] = (double)(i + 1);
 		}
-		final int dx = 3;
-		int[] dt = new int[dx];
-		for(int i = 0; i < dx; ++i) {
-			dt[i] = i+3;
+		for(int i = 0; i < (p*n); i++) {
+			B[i] = (double)(-i - 1);
 		}
 		
-		int[] invTest = new int[size];
-		invTest[0] = 2;		invTest[1] = 7;		invTest[2] = 1;
-		invTest[3] = 2;		invTest[4] = 245;		invTest[5] = 3;
-		invTest[6] = 6;		invTest[7] = 1;		invTest[8] = 6;
+		Matrix A_ = new Matrix(A, m, p);
+		Matrix B_ = new Matrix(B, p, n);
 		
 		
-		Matrix o = new Matrix(invTest, 3, 3);
-		o.print();
-		System.out.println();
-		o = o.div(255.0);
-		o.print();
-		System.out.println();
-		Matrix pp = o.spliceInRowType(o.div(255.0));
-		pp.print();
-		System.out.println();
+		System.out.println("the first time for matrix multi.");
+
+		long start = System.currentTimeMillis();
+		Matrix C_ = A_.multi(B_);
+		long end = System.currentTimeMillis();
 		
-		o.equal(o.trans()).columnSum().print();
+		System.out.println("two matrix multi: used " + (end - start) + " millis.");
 		
+		
+		System.out.println("Measuring performance of matrix multi.");
+		
+		start = System.currentTimeMillis();
+		for(int i = 0; i < LOOP_COUNT; i++) {
+			C_ = A_.multi(B_);
+		}
+		end = System.currentTimeMillis();
+		System.out.println("two matrix multi: used " + ((end - start) / LOOP_COUNT) + " millis.");
 		
 /*		o.print();
 		Matrix.saveToFile("out.dat", o);
