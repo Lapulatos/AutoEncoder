@@ -8,7 +8,9 @@ Java implimention of the paper 《Reducing The Dimensionality Of Data With Neura
 2. com.autoencoder.DeepAutoClassifier   <---> Image Classification
 
 # Results
-add soon.
+1. Encode Image: <br />
+<img border="0" src=https://github.com/Lapulatos/AutoEncoder/blob/master/encoder.png> <br />
+  This is the encode result of the Deep Auto Encoder(encode 10 times in total). In each time, the result will be greater than the before.
 
 # Update
 2016/8/28: Uing Intel® MKL to accelerate matrix multiplication. <br />
