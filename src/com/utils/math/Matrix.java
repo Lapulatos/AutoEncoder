@@ -11,22 +11,6 @@ import com.utils.ByteToInteger;
 import com.utils.DataArrayToByteArray;
 
 public class Matrix {
-
-	static {
-//		System.loadLibrary("com_utils_math_CBLAS");
-//		System.load("D:/document/programming/java/AutoEncoder/exec/com_utils_math_CBLAS.dll");
-		
-		// win64
-//		System.load("C:/Program Files (x86)/IntelSWTools/compilers_and_libraries_2016.3.207/windows/redist/intel64_win/mkl/mkl_core.dll");
-//		System.load("C:/Program Files (x86)/IntelSWTools/compilers_and_libraries_2016.3.207/windows/redist/intel64_win/mkl/mkl_intel_thread.dll");
-//		System.load("C:/Program Files (x86)/IntelSWTools/compilers_and_libraries_2016.3.207/windows/redist/intel64_win/compiler/libiomp5md.dll");
-
-		// win32
-//		System.load("C:/Program Files (x86)/IntelSWTools/compilers_and_libraries_2016.3.207/windows/redist/ia32_win/mkl/mkl_core.dll");
-//		System.load("C:/Program Files (x86)/IntelSWTools/compilers_and_libraries_2016.3.207/windows/redist/ia32_win/mkl/mkl_intel_thread.dll");
-//		System.load("C:/Program Files (x86)/IntelSWTools/compilers_and_libraries_2016.3.207/windows/redist/ia32_win/compiler/libiomp5md.dll");
-
-	}
 	
 	public int m, n;
 	public double[] data;
