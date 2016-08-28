@@ -22,3 +22,8 @@ Referenced web page: https://software.intel.com/en-us/articles/using-intel-mkl-i
 2. Exception in thread "main" java.lang.UnsatisfiedLinkError: no com_utils_math_CBLAS in java.library.path <br />
   Build Path -> Configure Build Path -> Java Build Path -> Libraries -> JRE System Library -> Native library location <br />
   Then, select the exec folder(the folder contain "com_utils_math_CBLAS.dll").
+
+3. Linux Platform Compile Error <br />
+  I compiled the c source code on Ubuntu 16.04 LTS, and my compile parameters are: <br />
+    gcc -shared -fPIC -I. -I$JAVA_HOME/include -I$JAVA_HOME/include/linux -I$MKL_HOME/mkl/include -L$MKL_HOME/mkl/lib/intel64 -L$MKL_HOME/compiler/lib/intel64 com_utils_math_CBLAS.c -o libmkl_java_utils.so -lm -lpthread -ldl -lmkl_core -lmkl_intel_thread -lmkl_rt <br />
+  The last three parameters can not exchange the order.(It seems like this, I don't know why. =_=)
